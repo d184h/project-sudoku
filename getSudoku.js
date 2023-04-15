@@ -1,16 +1,25 @@
 //чтение файла и переменные
 const fs = require("fs");
 const text = fs.readFileSync("./puzzles.txt", "utf-8");
-let n = Number(process.argv[2]) + 1; //номер судоку задаем через консоль
+let n =
+  Number(process.argv[2]) - 1 >= 0 && Number(process.argv[2]) - 1 < 15
+    ? Number(process.argv[2]) - 1
+    : 0; //номер судоку задаем через консоль. по дефолту выдает первый член
 //функция создания нерешенного судоку
 function getSudoku() {
-  let sudoku = [];
+  let sudokuString = [];
   let bigArr = text.split("\n");
   let arr = bigArr[n].split("");
   for (let i = 0; arr.length; i++) {
-    sudoku.push(arr.splice(0, 9));
+    sudokuString.push(arr.splice(0, 9));
   }
-  return sudoku;
+  let sudokuNumb = sudokuString.map((el) =>
+    el.map((item) => {
+      if (item == "-") return (item = 0);
+      else return Number(item);
+    })
+  );
+  return sudokuNumb;
 }
-console.log(getSudoku());
+// console.log(getSudoku());
 module.exports = getSudoku;
